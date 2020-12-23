@@ -1,129 +1,199 @@
 import 'package:Hello_Doctor/Dashboard.dart';
-import 'package:Hello_Doctor/Registerpage.dart';
-import 'package:Hello_Doctor/services/auth_service.dart';
+import 'package:Hello_Doctor/doctor_register.dart';
+import 'package:Hello_Doctor/user_register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:validators/validators.dart' as validator;
 
-class Loginpage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  final String userType;
+
+  const LoginPage({@required this.userType});
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController =
+      TextEditingController(text: "prabesh@gmail.com");
+  final TextEditingController passwordController =
+      TextEditingController(text: "12345678");
+
+  final _formkey = GlobalKey<FormState>();
+  bool isLoading = false;
+  String error = "";
+
+  void loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      User user = (await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim()))
+          .user;
+
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (BuildContext context) {
+        return MyDashboard();
+      }));
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        error = e.message.toString();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
-        title: Text(
-          'Hi, Your are in Loginpage',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        title: Text("Login".toUpperCase()),
+        centerTitle: true,
       ),
-      body: MyLoginpage(),
-      backgroundColor: Colors.white,
-    );
-  }
-}
-
-class MyLoginpage extends StatefulWidget {
-  @override
-  _MyLoginpageState createState() => _MyLoginpageState();
-}
-
-class _MyLoginpageState extends State<MyLoginpage> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 230,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30.0),
-                        bottomRight: Radius.circular(30.0)),
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/healthcare.jpg'),
-                        fit: BoxFit.cover)),
-              ),
-              Container(
-                padding: EdgeInsets.all(2.0),
-                margin: EdgeInsets.only(left: 4, right: 20),
-                child: TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.email),
-                    hintText: 'rai@gmail.com',
-                    labelText: 'Email',
-                  ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Center(
+              child: Form(
+                key: _formkey,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 230,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30.0),
+                              bottomRight: Radius.circular(30.0)),
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/healthcare.jpg'),
+                              fit: BoxFit.cover)),
+                    ),
+                    Container(
+                      child: MyTextFormField(
+                        isEmail: true,
+                        isPassword: false,
+                        labelText: 'Email Address',
+                        hintText: 'Email',
+                        validator: (String value) {
+                          if (!validator.isEmail(value)) {
+                            return 'Invalid Email';
+                          }
+                          return null;
+                        },
+                        controller: emailController,
+                      ),
+                    ),
+                    Container(
+                      child: MyTextFormField(
+                        controller: passwordController,
+                        isEmail: false,
+                        labelText: 'Confirm Password',
+                        hintText: 'Confirm Password',
+                        isPassword: true,
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Invalid Password';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    RaisedButton(
+                      padding: EdgeInsets.only(left: 80.0, right: 80.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                      color: Colors.indigoAccent,
+                      elevation: 10.0,
+                      highlightElevation: 20.0,
+                      onPressed: () {
+                        if (_formkey.currentState.validate()) {
+                          loginUser();
+                        }
+                      },
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    error == "" ? SizedBox() : Text(error),
+                    Container(
+                      padding: EdgeInsets.all(4.0),
+                      child: InkWell(
+                        onTap: () {
+                          if (widget.userType == "User") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserRegister(
+                                          userType: widget.userType,
+                                        )));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DoctorRegister(
+                                          userType: widget.userType,
+                                        )));
+                          }
+                        },
+                        child: Center(
+                          child: RichText(
+                              text: TextSpan(
+                                  text: 'Don\'t Have Account.',
+                                  style: TextStyle(color: Colors.black),
+                                  children: [
+                                TextSpan(
+                                    text: 'Create New Account',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.0,
+                                        fontStyle: FontStyle.italic))
+                              ])),
+                        ),
+                      ),
+                    ),
+                    // SizedBox(height: 30),
+                    // SignInButton(Buttons.Facebook, onPressed: () {})
+                  ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 4, right: 20),
-                child: TextFormField(
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.lock),
-                    hintText: 'Enter Password',
-                    labelText: 'Password',
-                  ),
-                  obscureText: true,
-                ),
-              ),
-              RaisedButton(
-                padding: EdgeInsets.only(left: 80.0, right: 80.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0)),
-                color: Colors.indigoAccent,
-                elevation: 10.0,
-                highlightElevation: 20.0,
-                onPressed: () {
-                  // if (context.read<AuthenticationService>().logIn(
-                  //           email: emailController.text,
-                  //           password: passwordController.text,
-                  //         ) !=
-                  //     null) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Dashboard()));
-                },
-                //},
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(4.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Registerpage()));
-                  },
-                  child: Center(
-                    child: RichText(
-                        text: TextSpan(
-                            text: 'Don\'t Have Account.',
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                          TextSpan(
-                              text: 'Create New Account',
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.0,
-                                  fontStyle: FontStyle.italic))
-                        ])),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
-        ),
+          isLoading
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.black.withOpacity(.5),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Please wait...",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              : SizedBox(),
+        ],
       ),
     );
   }

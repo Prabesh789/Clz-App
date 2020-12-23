@@ -1,5 +1,5 @@
 import 'package:Hello_Doctor/Loginpage.dart';
-import 'package:Hello_Doctor/Profile.dart';
+import 'package:Hello_Doctor/doctor_register.dart';
 import 'package:flutter/material.dart';
 
 class Landingpage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _LandingpageState extends State<Landingpage> {
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
         title: Text(
-          'WellCone User',
+          'WellCome User',
           style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
         ),
       ),
@@ -30,8 +30,12 @@ class _LandingpageState extends State<Landingpage> {
               padding: const EdgeInsets.all(20.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Profile()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage(
+                                userType: "Doctor",
+                              )));
                 },
                 child: Container(
                   width: 150.0,
@@ -73,8 +77,12 @@ class _LandingpageState extends State<Landingpage> {
               padding: const EdgeInsets.all(20.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Loginpage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage(
+                                userType: "User",
+                              )));
                 },
                 child: Container(
                   width: 150.0,

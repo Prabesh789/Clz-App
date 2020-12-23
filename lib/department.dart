@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart'; as http;
 
-class Depart extends StatelessWidget {
+class OtherDepartment extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // debugShowCheckedModeBanner: false,
-      title: 'Dashboard',
-      home: Department(),
-    );
-  }
+  _OtherDepartmentState createState() => _OtherDepartmentState();
 }
 
-class Department extends StatefulWidget {
-  @override
-  _DepartmentState createState() => _DepartmentState();
-}
-
-class _DepartmentState extends State<Department> {
+class _OtherDepartmentState extends State<OtherDepartment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
-        // leading: Icon(Icons.arrow_back),
         backgroundColor: Colors.indigoAccent,
         title: Container(
           alignment: Alignment.center,

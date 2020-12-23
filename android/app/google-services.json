@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "767271226219",
+    "firebase_url": "https://hello-doctor-final-39773-default-rtdb.firebaseio.com",
     "project_id": "hello-doctor-final-39773",
     "storage_bucket": "hello-doctor-final-39773.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:767271226219:android:1e26854fa4fa96195e9a2e",
+        "mobilesdk_app_id": "1:767271226219:android:c76a5dbeb06085885e9a2e",
         "android_client_info": {
           "package_name": "com.example.Hello_Doctor"
         }

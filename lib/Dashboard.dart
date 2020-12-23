@@ -1,17 +1,7 @@
 import 'package:Hello_Doctor/department.dart';
+import 'package:Hello_Doctor/newsView/newsMain.dart';
 import 'package:flutter/material.dart';
 // import 'package:http/http.dart'; as http;
-
-class Dashboard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Dashboard',
-      home: MyDashboard(),
-    );
-  }
-}
 
 class MyDashboard extends StatefulWidget {
   @override
@@ -19,19 +9,6 @@ class MyDashboard extends StatefulWidget {
 }
 
 class _MyDashboardState extends State<MyDashboard> {
-  // String newsResponse;
-  // List listResponse;
-
-  // Future fetchData() async {
-  //   http.Response response;
-  //   response = await http.get(https://www.medicalnewstoday.com/);
-  //   if(response.statusCode == 200){
-  //     setState(() {
-  //       listResponse = response.body;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +35,7 @@ class _MyDashboardState extends State<MyDashboard> {
                       child: mydoctorButton(context)),
                   Container(
                     alignment: Alignment.topRight,
-                    padding: EdgeInsets.only(left: 150.0, top: 5.0),
+                    padding: EdgeInsets.only(left: 80.0, top: 5.0),
                     child: inquaryDeskButton(context),
                   ),
                 ],
@@ -67,7 +44,7 @@ class _MyDashboardState extends State<MyDashboard> {
             Container(
               alignment: Alignment.center,
               color: Colors.white,
-              height: 450.0,
+              height: 394.0,
               width: 300.0,
               margin: EdgeInsets.all(0.0),
               child: Column(
@@ -100,8 +77,6 @@ class _MyDashboardState extends State<MyDashboard> {
                           SizedBox(height: 10.0),
                           diabitiesButton(context),
                           SizedBox(height: 10.0),
-                          dentistButton(context),
-                          SizedBox(height: 10.0),
                           otherButton(context),
                         ],
                       ),
@@ -111,13 +86,13 @@ class _MyDashboardState extends State<MyDashboard> {
               ),
             ),
             Container(
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(right: 230.0),
-              child: Column(
+              alignment: Alignment.bottomLeft,
+              child: Row(
                 children: <Widget>[
                   Container(
                       padding: EdgeInsets.all(10.0),
                       child: newsarticleButton(context)),
+                  SizedBox(width: 40),
                   Container(
                     child: commentButton(context),
                   ),
@@ -232,21 +207,6 @@ Widget diabitiesButton(BuildContext context) {
       onPressed: () {});
 }
 
-Widget dentistButton(BuildContext context) {
-  return RaisedButton(
-      padding: EdgeInsets.all(13.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.black,
-      elevation: 10.0,
-      highlightElevation: 30.0,
-      child: Text(
-        '         Dental          ',
-        style: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      onPressed: () {});
-}
-
 Widget otherButton(BuildContext context) {
   return RaisedButton(
       padding: EdgeInsets.all(13.0),
@@ -260,8 +220,8 @@ Widget otherButton(BuildContext context) {
             fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
       ),
       onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Depart()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => OtherDepartment()));
       });
 }
 
@@ -275,7 +235,10 @@ Widget newsarticleButton(BuildContext context) {
         'News Article',
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
-      onPressed: () {});
+      onPressed: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Mainnews()));
+      });
 }
 
 Widget commentButton(BuildContext context) {
