@@ -38,7 +38,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           ),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             myPatientButton(context),

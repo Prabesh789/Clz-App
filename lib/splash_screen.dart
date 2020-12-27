@@ -1,5 +1,6 @@
 import 'package:Hello_Doctor/Dashboard.dart';
 import 'package:Hello_Doctor/Landingpage.dart';
+import 'package:Hello_Doctor/doctorMainScreen.dart';
 import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/model/userModel.dart';
 import 'package:Hello_Doctor/userMainScreen.dart';
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (userModel.userType == "Doctor") {
           Navigator.of(context).pushReplacement(
               new MaterialPageRoute(builder: (BuildContext context) {
-            return DoctorDashboard();
+            return DoctorMainScreen();
           }));
         } else {
           Navigator.of(context).pushReplacement(
