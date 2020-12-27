@@ -33,10 +33,21 @@ class _CategoryNewsState extends State<CategoryNews> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          color: Colors.black,
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Health"),
+            Text(
+              "News",
+              style: TextStyle(color: Colors.black),
+            ),
             Text(
               "Article",
               style: TextStyle(color: Colors.blue),
@@ -56,8 +67,10 @@ class _CategoryNewsState extends State<CategoryNews> {
         elevation: 0.0,
       ),
       body: _loading
-          ? Container(
-              child: CircularProgressIndicator(),
+          ? Center(
+              child: Container(
+                child: CircularProgressIndicator(),
+              ),
             )
           : SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 16),

@@ -7,12 +7,12 @@ import 'package:Hello_Doctor/newsView/category_news.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class NewsHomePage extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _NewsHomePageState createState() => _NewsHomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _NewsHomePageState extends State<NewsHomePage> {
   List<CategoryModel> categories = new List<CategoryModel>();
   List<ArticleModel> articles = new List<ArticleModel>();
 
@@ -39,10 +39,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          color: Colors.black,
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Health"),
+            Text(
+              "Health",
+              style: TextStyle(color: Colors.black),
+            ),
             Text(
               "Article",
               style: TextStyle(color: Colors.blue),
@@ -53,7 +64,7 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
       ),
       body: _loading
-          ? Container(
+          ? Center(
               child: CircularProgressIndicator(),
             )
           : SingleChildScrollView(

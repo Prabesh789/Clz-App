@@ -46,7 +46,7 @@ class _UserRegisterState extends State<UserRegister> {
           .user;
       await FirebaseFirestore.instance.collection('user').doc(user.uid).set({
         'fullName': fullNameController.text.trim(),
-        'contect': contactNoController.text.trim(),
+        'contact': contactNoController.text.trim(),
         'email': emailController.text.trim(),
         'password': passwordController.text.trim(),
         'department': "",
@@ -88,6 +88,7 @@ class _UserRegisterState extends State<UserRegister> {
                 children: [
                   Container(
                     child: MyTextFormField(
+                      icon: Icon(Icons.person),
                       isEmail: false,
                       isPassword: false,
                       labelText: ' Your Full Name',
@@ -103,6 +104,7 @@ class _UserRegisterState extends State<UserRegister> {
                   ),
                   Container(
                     child: MyTextFormField(
+                      icon: Icon(Icons.phone),
                       isEmail: false,
                       isPassword: false,
                       labelText: ' Your Contact Number',
@@ -118,6 +120,7 @@ class _UserRegisterState extends State<UserRegister> {
                   ),
                   Container(
                     child: MyTextFormField(
+                      icon: Icon(Icons.email),
                       isEmail: true,
                       isPassword: false,
                       labelText: 'Email Address',
@@ -133,6 +136,7 @@ class _UserRegisterState extends State<UserRegister> {
                   ),
                   Container(
                     child: MyTextFormField(
+                      icon: Icon(Icons.lock),
                       isEmail: false,
                       labelText: 'Your Password',
                       hintText: 'Password',
@@ -149,6 +153,7 @@ class _UserRegisterState extends State<UserRegister> {
                   ),
                   Container(
                     child: MyTextFormField(
+                      icon: Icon(Icons.lock),
                       controller: confirmPasswordController,
                       isEmail: false,
                       labelText: 'Confirm Password',
@@ -225,6 +230,7 @@ class _UserRegisterState extends State<UserRegister> {
 }
 
 class MyTextFormField extends StatefulWidget {
+  final Icon icon;
   final String labelText;
   final String hintText;
   final Function validator;
@@ -235,6 +241,7 @@ class MyTextFormField extends StatefulWidget {
 
   MyTextFormField(
       {@required this.hintText,
+      @required this.icon,
       @required this.validator,
       @required this.isPassword,
       @required this.isEmail,
@@ -261,6 +268,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
       child: TextFormField(
         controller: this.widget.controller,
         decoration: InputDecoration(
+          prefixIcon: widget.icon,
           suffixIcon: widget.isPassword
               ? IconButton(
                   icon: Icon(

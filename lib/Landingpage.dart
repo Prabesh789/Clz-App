@@ -1,5 +1,4 @@
 import 'package:Hello_Doctor/Loginpage.dart';
-import 'package:Hello_Doctor/doctor_register.dart';
 import 'package:flutter/material.dart';
 
 class Landingpage extends StatefulWidget {
@@ -11,20 +10,28 @@ class _LandingpageState extends State<Landingpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
-        title: Text(
-          'WellCome User',
-          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              height: 260,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      bottomRight: Radius.circular(30.0)),
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/health.jpg'),
+                      fit: BoxFit.cover)),
+            ),
+            SizedBox(
+              height: 40,
+            ),
             Text(
-              'Choose Who are.',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              'Get started As',
+              style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic),
             ),
             Container(
               padding: const EdgeInsets.all(20.0),

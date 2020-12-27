@@ -18,10 +18,21 @@ class _ArticleViewState extends State<ArticleView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Health"),
+            Text(
+              "News",
+              style: TextStyle(color: Colors.black),
+            ),
             Text(
               "Article",
               style: TextStyle(color: Colors.blue),

@@ -1,6 +1,9 @@
 import 'package:Hello_Doctor/Dashboard.dart';
+import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/doctor_register.dart';
+import 'package:Hello_Doctor/model/userModel.dart';
 import 'package:Hello_Doctor/user_register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:validators/validators.dart' as validator;
@@ -14,14 +17,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController =
-      TextEditingController(text: "prabesh@gmail.com");
-  final TextEditingController passwordController =
-      TextEditingController(text: "12345678");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
   bool isLoading = false;
   String error = "";
+  UserModel userModel;
 
   void loginUser() async {
     setState(() {
@@ -33,10 +35,33 @@ class _LoginPageState extends State<LoginPage> {
               password: passwordController.text.trim()))
           .user;
 
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (BuildContext context) {
-        return MyDashboard();
-      }));
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(user.uid)
+          .get()
+          .then((ds) {
+        setState(() {
+          userModel = UserModel(
+              userType: ds['userType'],
+              bio: ds['bio'],
+              contact: ds['contact'],
+              department: ds['department'],
+              email: ds['email'],
+              fullName: ds['fullName'],
+              password: ds['password']);
+        });
+      });
+      if (userModel.userType == "Doctor") {
+        Navigator.of(context).pushReplacement(
+            new MaterialPageRoute(builder: (BuildContext context) {
+          return DoctorDashboard();
+        }));
+      } else {
+        Navigator.of(context).pushReplacement(
+            new MaterialPageRoute(builder: (BuildContext context) {
+          return MyDashboard();
+        }));
+      }
       setState(() {
         isLoading = false;
       });
@@ -75,7 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                               fit: BoxFit.cover)),
                     ),
                     Container(
+                      padding: EdgeInsets.all(8.0),
                       child: MyTextFormField(
+                        icon: Icon(Icons.email),
                         isEmail: true,
                         isPassword: false,
                         labelText: 'Email Address',
@@ -90,11 +117,13 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Container(
+                      padding: EdgeInsets.only(left: 8, right: 8),
                       child: MyTextFormField(
+                        icon: Icon(Icons.lock),
                         controller: passwordController,
                         isEmail: false,
-                        labelText: 'Confirm Password',
-                        hintText: 'Confirm Password',
+                        labelText: 'Password',
+                        hintText: 'Password',
                         isPassword: true,
                         validator: (String value) {
                           if (value.isEmpty) {

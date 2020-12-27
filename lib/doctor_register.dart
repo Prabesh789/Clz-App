@@ -1,9 +1,7 @@
-import 'package:Hello_Doctor/Dashboard.dart';
 import 'package:Hello_Doctor/Loginpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:passwordfield/password_bloc.dart';
 import 'package:validators/validators.dart' as validator;
 
 class DoctorRegister extends StatefulWidget {
@@ -18,14 +16,18 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   final GlobalKey<FormState> _formkeyValue = new GlobalKey<FormState>();
   var selectedType;
   List<String> _departmentType = <String>[
-    'General Physicians',
-    'Gynecology',
-    'Cardiology',
-    'Pediatrics',
+    'General Physician',
+    'Gynecologist',
+    'Cardiologist',
+    'Paediatricians',
     'Dentist',
-    'Pulmonology',
-    'Diabetes',
-    "STD's",
+    'Pulmonologist',
+    'Endocrinologists',
+    "Dermatologists ",
+    'Ophthalmologist ',
+    'Nutritionists',
+    'Medical Oncologist',
+    'Reproductive endocrinologists',
     'Others'
   ];
 
@@ -39,7 +41,6 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   String error = "";
   void dispose() {
     fullNameController.dispose();
-
     contactController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -58,7 +59,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
           .user;
       await FirebaseFirestore.instance.collection('user').doc(user.uid).set({
         'fullName': fullNameController.text.trim(),
-        'contect': contactController.text.trim(),
+        'contact': contactController.text.trim(),
         'email': emailController.text.trim(),
         'password': passwordController.text.trim(),
         'department': selectedType,
@@ -88,6 +89,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
     return Scaffold(
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
+        backgroundColor: Colors.indigoAccent,
         title: Container(
           alignment: Alignment.center,
           child: Text(
@@ -123,32 +125,55 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                   width: halfMediawidth,
                   child: passwoerdTextField(passwordController),
                 ),
-                DropdownButtonFormField(
-                  validator: (value) {
-                    if (value == null) {
-                      return "Please select department";
-                    }
-                    return null;
-                  },
-                  dropdownColor: Colors.white,
-                  items: _departmentType
-                      .map((value) => DropdownMenuItem(
-                            child: Text(
-                              value,
-                              //style: TextStyle(color: Color(0xff11b719)),
-                            ),
-                            value: value,
-                          ))
-                      .toList(),
-                  onChanged: (selectedDepartmentType) {
-                    setState(() {
-                      selectedType = selectedDepartmentType;
-                    });
-                  },
-                  value: selectedType,
-                  isExpanded: false,
-                  decoration:
-                      InputDecoration(labelText: "Select your department"),
+                Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: DropdownButtonFormField(
+                    validator: (value) {
+                      if (value == null) {
+                        return "Please select department";
+                      }
+                      return null;
+                    },
+                    dropdownColor: Colors.white,
+                    items: _departmentType
+                        .map((value) => DropdownMenuItem(
+                              child: Text(
+                                value,
+                                //style: TextStyle(color: Color(0xff11b719)),
+                              ),
+                              value: value,
+                            ))
+                        .toList(),
+                    onChanged: (selectedDepartmentType) {
+                      setState(() {
+                        selectedType = selectedDepartmentType;
+                      });
+                    },
+                    value: selectedType,
+                    isExpanded: false,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.teal,
+                          )),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: Colors.black,
+                      )),
+                      prefixIcon: Icon(
+                        Icons.medical_services,
+                        color: Colors.green,
+                      ),
+                      labelText: 'Select Your Department',
+                      labelStyle: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
                 Container(
                     padding: EdgeInsets.all(8.0),
@@ -165,7 +190,8 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                   child: Text(
                     'Submit',
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
+                        color: Colors.white,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold),
                   ),
@@ -306,11 +332,12 @@ Widget passwoerdTextField(TextEditingController passwordController) {
   return TextFormField(
     controller: passwordController,
     validator: (value) {
-      if (value.isEmpty) {
-        return "Enter Password";
+      if (value.length < 6) {
+        return "Legnth must be min 6 character";
       }
       return null;
     },
+    obscureText: true,
     decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -337,6 +364,7 @@ Widget passwoerdTextField(TextEditingController passwordController) {
 
 Widget descriptionTextField(TextEditingController bioController) {
   return TextFormField(
+    maxLines: 5,
     controller: bioController,
     validator: (value) {
       if (value.isEmpty) {
@@ -356,7 +384,7 @@ Widget descriptionTextField(TextEditingController bioController) {
             borderSide: BorderSide(
           color: Colors.black,
         )),
-        labelText: 'Write about your-self',
+        labelText: 'Write about your-self.',
         labelStyle: TextStyle(
             color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.bold),
         hintText: 'I am Dr. .......'),
