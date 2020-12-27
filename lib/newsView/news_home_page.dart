@@ -30,9 +30,10 @@ class _NewsHomePageState extends State<NewsHomePage> {
     News newsClass = News();
     await newsClass.getNews();
     articles = newsClass.news;
-    setState(() {
-      _loading = false;
-    });
+    if (mounted)
+      setState(() {
+        _loading = false;
+      });
   }
 
   @override
@@ -40,13 +41,7 @@ class _NewsHomePageState extends State<NewsHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          color: Colors.black,
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop(context);
-          },
-        ),
+        leading: SizedBox(),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

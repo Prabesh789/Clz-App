@@ -28,12 +28,20 @@ class _InsideDepartmentState extends State<InsideDepartment> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Health",
+              "${widget.department}",
               style: TextStyle(color: Colors.black),
+              overflow: TextOverflow.ellipsis,
             ),
-            Text(
-              "Department",
-              style: TextStyle(color: Colors.blue),
+            SizedBox(
+              width: 5,
+            ),
+            Flexible(
+              child: Text(
+                "Department",
+                style: TextStyle(color: Colors.blue),
+                textAlign: TextAlign.justify,
+                overflow: TextOverflow.ellipsis,
+              ),
             )
           ],
         ),

@@ -49,9 +49,10 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   }
 
   void registerUser() async {
-    setState(() {
-      isLoading = true;
-    });
+    if (mounted)
+      setState(() {
+        isLoading = true;
+      });
     try {
       User user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(
               email: emailController.text.trim(),
@@ -66,9 +67,10 @@ class _DoctorRegisterState extends State<DoctorRegister> {
         'bio': bioController.text.trim(),
         'userType': widget.userType,
       });
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          isLoading = false;
+        });
       Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (BuildContext context) {
         return new LoginPage(
@@ -76,10 +78,11 @@ class _DoctorRegisterState extends State<DoctorRegister> {
         );
       }));
     } catch (e) {
-      setState(() {
-        error = e.message.toString();
-        isLoading = false;
-      });
+      if (mounted)
+        setState(() {
+          error = e.message.toString();
+          isLoading = false;
+        });
     }
   }
 
@@ -98,138 +101,145 @@ class _DoctorRegisterState extends State<DoctorRegister> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Form(
-            key: _formkeyValue,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: halfMediawidth,
-                  child: nameTextField(fullNameController),
-                ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: halfMediawidth,
-                  child: contactNoTextField(contactController),
-                ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: halfMediawidth,
-                  child: emailTextField(emailController),
-                ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  width: halfMediawidth,
-                  child: passwoerdTextField(passwordController),
-                ),
-                Container(
-                  padding: EdgeInsets.all(8.0),
-                  child: DropdownButtonFormField(
-                    validator: (value) {
-                      if (value == null) {
-                        return "Please select department";
-                      }
-                      return null;
-                    },
-                    dropdownColor: Colors.white,
-                    items: _departmentType
-                        .map((value) => DropdownMenuItem(
-                              child: Text(
-                                value,
-                                //style: TextStyle(color: Color(0xff11b719)),
-                              ),
-                              value: value,
-                            ))
-                        .toList(),
-                    onChanged: (selectedDepartmentType) {
-                      setState(() {
-                        selectedType = selectedDepartmentType;
-                      });
-                    },
-                    value: selectedType,
-                    isExpanded: false,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: Colors.black,
-                      )),
-                      prefixIcon: Icon(
-                        Icons.medical_services,
-                        color: Colors.green,
-                      ),
-                      labelText: 'Select Your Department',
-                      labelStyle: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                Container(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Stack(
+          children: [
+            Form(
+              key: _formkeyValue,
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                children: <Widget>[
+                  Container(
                     padding: EdgeInsets.all(8.0),
                     width: halfMediawidth,
-                    child: descriptionTextField(bioController)),
-                RaisedButton(
-                  padding: EdgeInsets.only(left: 100, right: 100),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
+                    child: nameTextField(fullNameController),
                   ),
-                  color: Colors.indigo,
-                  elevation: 10.0,
-                  highlightElevation: 20.0,
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    width: halfMediawidth,
+                    child: contactNoTextField(contactController),
                   ),
-                  onPressed: () {
-                    if (_formkeyValue.currentState.validate()) {
-                      registerUser();
-                    }
-                  },
-                ),
-                error == "" ? SizedBox() : Text(error),
-              ],
-            ),
-          ),
-          isLoading
-              ? Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.black.withOpacity(.5),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Please wait...",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    width: halfMediawidth,
+                    child: emailTextField(emailController),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    width: halfMediawidth,
+                    child: passwoerdTextField(passwordController),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField(
+                      validator: (value) {
+                        if (value == null) {
+                          return "Please select department";
+                        }
+                        return null;
+                      },
+                      dropdownColor: Colors.white,
+                      items: _departmentType
+                          .map((value) => DropdownMenuItem(
+                                child: Text(
+                                  value,
+                                  //style: TextStyle(color: Color(0xff11b719)),
+                                ),
+                                value: value,
+                              ))
+                          .toList(),
+                      onChanged: (selectedDepartmentType) {
+                        if (mounted)
+                          setState(() {
+                            selectedType = selectedDepartmentType;
+                          });
+                      },
+                      value: selectedType,
+                      isExpanded: false,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.teal,
+                            )),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: Colors.black,
+                        )),
+                        prefixIcon: Icon(
+                          Icons.medical_services,
+                          color: Colors.green,
                         ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        )
-                      ],
+                        labelText: 'Select Your Department',
+                        labelStyle: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                )
-              : SizedBox(),
-        ],
+                  Container(
+                      padding: EdgeInsets.all(8.0),
+                      width: halfMediawidth,
+                      child: descriptionTextField(bioController)),
+                  RaisedButton(
+                    padding: EdgeInsets.only(left: 100, right: 100),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    color: Colors.indigo,
+                    elevation: 10.0,
+                    highlightElevation: 20.0,
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (_formkeyValue.currentState.validate()) {
+                        registerUser();
+                      }
+                    },
+                  ),
+                  error == "" ? SizedBox() : Text(error),
+                ],
+              ),
+            ),
+            isLoading
+                ? Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.black.withOpacity(.5),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Please wait...",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+          ],
+        ),
       ),
     );
   }

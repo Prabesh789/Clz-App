@@ -14,6 +14,37 @@ class MyDashboard extends StatefulWidget {
 }
 
 class _MyDashboardState extends State<MyDashboard> {
+  List<String> _departmentType = <String>[
+    'General Physician',
+    'Gynecologist',
+    'Cardiologist',
+    'Paediatricians',
+    'Dentist',
+    'Pulmonologist',
+    'Endocrinologists',
+    "Dermatologists ",
+    'Ophthalmologist ',
+    'Nutritionists',
+    'Medical Oncologist',
+    'Reproductive endocrinologists',
+    'Others'
+  ];
+
+  List<String> _departmentDetail = <String>[
+    'adhahjdgh',
+    'dfgh',
+    'adhahjvcacsdgh',
+    'adhaasdahjdgh',
+    'adhahacsdajdgh',
+    'adhahjdgh',
+    'asdbb',
+    'ewert',
+    'dfgfghfgh',
+    'adhahjdgh',
+    'asdrth',
+    'adhahjdgh',
+    'f4t63',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,16 +52,22 @@ class _MyDashboardState extends State<MyDashboard> {
       appBar: AppBar(
         leading: SizedBox(),
         actions: [
-          IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut().then((value) {
-                  Navigator.of(context).pushReplacement(
-                      new MaterialPageRoute(builder: (BuildContext context) {
-                    return SplashScreen();
-                  }));
-                });
-              })
+          InkWell(
+            onTap: () async {
+              await FirebaseAuth.instance.signOut().then((value) {
+                Navigator.of(context).pushReplacement(
+                    new MaterialPageRoute(builder: (BuildContext context) {
+                  return SplashScreen();
+                }));
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Center(
+                child: Text("Log Out"),
+              ),
+            ),
+          ),
         ],
         backgroundColor: Colors.indigoAccent,
         title: Container(
@@ -41,167 +78,107 @@ class _MyDashboardState extends State<MyDashboard> {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.all(10.0),
-                      alignment: Alignment.topLeft,
-                      child: mydoctorButton(context)),
-                  Container(
-                    alignment: Alignment.topRight,
-                    padding: EdgeInsets.only(left: 120.0, top: 5.0),
-                    child: inquaryDeskButton(context),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
+      body: GridView.builder(
+        itemCount: _departmentType.length,
+        padding: EdgeInsets.all(10),
+        physics: BouncingScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10),
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
               color: Colors.white,
-              height: 394.0,
-              width: 300.0,
-              margin: EdgeInsets.all(0.0),
+            ),
+            child: Center(
               child: Column(
-                children: <Widget>[
-                  Container(
-                    color: Colors.black,
-                    height: 40.0,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'You are looking for..',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "${_departmentType[index]}",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        DepartmentButton(department: "General Physician"),
-                        SizedBox(height: 10.0),
-                        DepartmentButton(department: "Gynecologist"),
-                        SizedBox(height: 10),
-                        DepartmentButton(department: "Cardiologist"),
-                        SizedBox(height: 10.0),
-                        DepartmentButton(department: "Paediatricians"),
-                        SizedBox(height: 10.0),
-                        DepartmentButton(department: "Endocrinologists"),
-                        SizedBox(height: 10.0),
-                        otherButton(context),
-                        // SizedBox(height: 10.0),
-                        // otherButton(context),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => InsideDepartment(
+                                department: _departmentType[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.blue[700],
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            "View All Doctors",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          viewDetails(
+                            context: context,
+                            detail: _departmentDetail[index],
+                          );
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.blue[700],
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            "Learn More...",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            Container(
-              alignment: Alignment.bottomLeft,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: newsarticleButton(context)),
-                  SizedBox(width: 40),
-                  Container(
-                    child: commentButton(context),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
-}
 
-Widget mydoctorButton(BuildContext context) {
-  return RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.blueAccent[100],
-      elevation: 10.0,
-      highlightElevation: 30.0,
-      child: Text(
-        'My Doctor',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {});
-}
-
-Widget inquaryDeskButton(BuildContext context) {
-  return RaisedButton(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-    color: Colors.blueAccent[100],
-    elevation: 10.0,
-    highlightElevation: 30.0,
-    child: Text(
-      'Inquary Desk',
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-    ),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => InquaryDesk(),
-        ),
-      );
-    },
-  );
-}
-
-Widget otherButton(BuildContext context) {
-  return RaisedButton(
-    padding: EdgeInsets.all(13.0),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-    color: Colors.black,
-    elevation: 10.0,
-    highlightElevation: 30.0,
-    child: Text(
-      '            Other             ',
-      style: TextStyle(
-          fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-    ),
-    onPressed: () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => OtherDepartment()));
-    },
-  );
-}
-
-Widget newsarticleButton(BuildContext context) {
-  return RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.blueAccent[100],
-      elevation: 10.0,
-      highlightElevation: 30.0,
-      child: Text(
-        'News Article',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NewsHomePage()));
-      });
-}
-
-Widget commentButton(BuildContext context) {
-  return RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.blueAccent[100],
-      elevation: 10.0,
-      highlightElevation: 30.0,
-      child: Text(
-        'Comment Box',
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
-      onPressed: () {});
+  void viewDetails({BuildContext context, String detail}) {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Center(
+              child: Text("$detail"),
+            ),
+          );
+        });
+  }
 }

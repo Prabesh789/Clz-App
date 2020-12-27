@@ -2,6 +2,7 @@ import 'package:Hello_Doctor/Dashboard.dart';
 import 'package:Hello_Doctor/Landingpage.dart';
 import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/model/userModel.dart';
+import 'package:Hello_Doctor/userMainScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
             .doc(user.uid)
             .get()
             .then((ds) {
-          setState(() {
-            userModel = UserModel(
-                userType: ds['userType'],
-                bio: ds['bio'],
-                contact: ds['contact'],
-                department: ds['department'],
-                email: ds['email'],
-                fullName: ds['fullName'],
-                password: ds['password']);
-          });
+          if (mounted)
+            setState(() {
+              userModel = UserModel(
+                  userType: ds['userType'],
+                  bio: ds['bio'],
+                  contact: ds['contact'],
+                  department: ds['department'],
+                  email: ds['email'],
+                  fullName: ds['fullName'],
+                  password: ds['password']);
+            });
         });
         if (userModel.userType == "Doctor") {
           Navigator.of(context).pushReplacement(
@@ -46,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           Navigator.of(context).pushReplacement(
               new MaterialPageRoute(builder: (BuildContext context) {
-            return MyDashboard();
+            return UserMainScreen();
           }));
         }
       }

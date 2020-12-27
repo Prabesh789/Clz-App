@@ -10,13 +10,7 @@ class _InquaryDeskState extends State<InquaryDesk> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          color: Colors.black,
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop(context);
-          },
-        ),
+        leading: SizedBox(),
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,

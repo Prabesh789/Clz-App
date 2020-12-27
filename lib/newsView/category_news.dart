@@ -24,9 +24,10 @@ class _CategoryNewsState extends State<CategoryNews> {
     CategoryNewsClass newsClass = CategoryNewsClass();
     await newsClass.getNews(widget.category);
     articles = newsClass.news;
-    setState(() {
-      _loading = false;
-    });
+    if (mounted)
+      setState(() {
+        _loading = false;
+      });
   }
 
   @override
