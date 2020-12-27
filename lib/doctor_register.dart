@@ -66,6 +66,8 @@ class _DoctorRegisterState extends State<DoctorRegister> {
         'department': selectedType,
         'bio': bioController.text.trim(),
         'userType': widget.userType,
+      }).then((value) {
+        FirebaseAuth.instance.signOut();
       });
       if (mounted)
         setState(() {

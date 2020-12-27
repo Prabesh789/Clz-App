@@ -1,4 +1,5 @@
 import 'package:Hello_Doctor/Dashboard.dart';
+import 'package:Hello_Doctor/Widget/customTextField.dart';
 import 'package:Hello_Doctor/doctorMainScreen.dart';
 import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/doctor_register.dart';
@@ -19,10 +20,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController =
-      TextEditingController(text: "taker@gmail.com");
+  final TextEditingController emailController = TextEditingController(text: "");
   final TextEditingController passwordController =
-      TextEditingController(text: "taker12345");
+      TextEditingController(text: "doctor12345");
 
   final _formkey = GlobalKey<FormState>();
   bool isLoading = false;
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         setState(() {
           isLoading = false;
-          error = "This account is for User !";
+          error = "Invalid Account Type !";
         });
       }
       if (mounted)
