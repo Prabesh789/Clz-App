@@ -1,5 +1,6 @@
 import 'package:Hello_Doctor/inquary_desk.dart';
 import 'package:Hello_Doctor/newsView/news_home_page.dart';
+import 'package:Hello_Doctor/service_taker_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -18,7 +19,7 @@ class _UserMainScreenState extends State<UserMainScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _UserMainScreenState extends State<UserMainScreen>
           MyDashboard(),
           InquaryDesk(),
           NewsHomePage(),
+          ServiceTakerProfile(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -63,7 +65,7 @@ class _UserMainScreenState extends State<UserMainScreen>
                 height: 30,
                 width: 30,
               ),
-              text: "All Departments",
+              text: "Departments",
             ),
             Tab(
               icon: Image.asset(
@@ -79,7 +81,15 @@ class _UserMainScreenState extends State<UserMainScreen>
                 height: 20,
                 width: 20,
               ),
-              text: "News Articles",
+              text: "News Article",
+            ),
+            Tab(
+              icon: Image.asset(
+                'assets/images/myprofile.png',
+                height: 20,
+                width: 20,
+              ),
+              text: "My Profile",
             ),
           ],
         ),

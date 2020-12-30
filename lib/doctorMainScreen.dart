@@ -4,8 +4,6 @@ import 'package:Hello_Doctor/newsView/news_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'Dashboard.dart';
-
 class DoctorMainScreen extends StatefulWidget {
   @override
   _DoctorMainScreenState createState() => _DoctorMainScreenState();
@@ -60,11 +58,11 @@ class _DoctorMainScreenState extends State<DoctorMainScreen>
           tabs: <Widget>[
             Tab(
               icon: Image.asset(
-                'assets/images/doctor.png',
+                'assets/images/attributes.PNG',
                 height: 30,
                 width: 30,
               ),
-              text: "All Departments",
+              text: "Doctor Attributes",
             ),
             Tab(
               icon: Image.asset(

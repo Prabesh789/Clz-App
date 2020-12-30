@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:Hello_Doctor/Loginpage.dart';
 import 'package:Hello_Doctor/Widget/customTextField.dart';
 import 'package:Hello_Doctor/Widget/custom_image_picker_sheet.dart';
@@ -68,10 +67,6 @@ class _UserRegisterState extends State<UserRegister> {
         if (value != null) {
           storageTaskSnapshot = value;
           storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) async {
-            setState(() {
-              photoUrl = downloadUrl;
-            });
-            deleteImage(downloadUrl);
             await FirebaseFirestore.instance
                 .collection('user')
                 .doc(user.uid)
@@ -82,9 +77,13 @@ class _UserRegisterState extends State<UserRegister> {
               'password': passwordController.text.trim(),
               'department': "",
               'bio': "",
+              'verificationDoc': '',
               'photoUrl': downloadUrl,
               'userType': widget.userType,
             }).then((value) {
+              setState(() {
+                photoUrl = downloadUrl;
+              });
               FirebaseAuth.instance.signOut();
             });
           }, onError: (err) async {
@@ -167,16 +166,6 @@ class _UserRegisterState extends State<UserRegister> {
           _image = croppedImage;
         });
     }
-  }
-
-//delete previous pic
-  Future deleteImage(String url) async {
-    await firebase_storage.FirebaseStorage.instance
-        .refFromURL(url)
-        .delete()
-        .catchError((onError) async {
-      print(onError.toString());
-    });
   }
 
   @override
@@ -263,6 +252,10 @@ class _UserRegisterState extends State<UserRegister> {
                               ),
                             ),
                           ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
+                          // // Text("Choose Your Profile."),
                         ],
                       ),
                       Container(

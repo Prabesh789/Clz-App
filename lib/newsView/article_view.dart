@@ -14,6 +14,7 @@ class ArticleView extends StatefulWidget {
 class _ArticleViewState extends State<ArticleView> {
   final Completer<WebViewController> _completer =
       Completer<WebViewController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +52,16 @@ class _ArticleViewState extends State<ArticleView> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: WebView(
-          initialUrl: widget.articleModel.url,
-          onWebViewCreated: ((WebViewController webViewController) {
-            _completer.complete(webViewController);
-          }),
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: WebView(
+            initialUrl: widget.articleModel.url,
+            onWebViewCreated: ((WebViewController webViewController) {
+              _completer.complete(webViewController);
+            }),
+          ),
         ),
       ),
     );

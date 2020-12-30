@@ -1,7 +1,5 @@
-import 'package:Hello_Doctor/Dashboard.dart';
 import 'package:Hello_Doctor/Landingpage.dart';
 import 'package:Hello_Doctor/doctorMainScreen.dart';
-import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/model/userModel.dart';
 import 'package:Hello_Doctor/userMainScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,13 +30,17 @@ class _SplashScreenState extends State<SplashScreen> {
           if (mounted)
             setState(() {
               userModel = UserModel(
-                  userType: ds['userType'],
-                  bio: ds['bio'],
-                  contact: ds['contact'],
-                  department: ds['department'],
-                  email: ds['email'],
-                  fullName: ds['fullName'],
-                  password: ds['password']);
+                uid: ds.id,
+                userType: ds['userType'],
+                bio: ds['bio'],
+                contact: ds['contact'],
+                department: ds['department'],
+                email: ds['email'],
+                fullName: ds['fullName'],
+                password: ds['password'],
+                verificationDoc: ds['verificationDoc'],
+                photoUrl: ds['photoUrl'],
+              );
             });
         });
         if (userModel.userType == "Doctor") {

@@ -1,7 +1,5 @@
-import 'package:Hello_Doctor/Dashboard.dart';
 import 'package:Hello_Doctor/Widget/customTextField.dart';
 import 'package:Hello_Doctor/doctorMainScreen.dart';
-import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/doctor_register.dart';
 import 'package:Hello_Doctor/model/userModel.dart';
 import 'package:Hello_Doctor/userMainScreen.dart';
@@ -20,9 +18,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController emailController = TextEditingController(text: "");
-  final TextEditingController passwordController =
-      TextEditingController(text: "doctor12345");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
   bool isLoading = false;
@@ -48,13 +45,16 @@ class _LoginPageState extends State<LoginPage> {
         if (mounted)
           setState(() {
             userModel = UserModel(
+                uid: ds.id,
                 userType: ds['userType'],
                 bio: ds['bio'],
                 contact: ds['contact'],
                 department: ds['department'],
                 email: ds['email'],
                 fullName: ds['fullName'],
-                password: ds['password']);
+                password: ds['password'],
+                photoUrl: ds['photoUrl'],
+                verificationDoc: ds['verificationDoc']);
           });
       });
       if (widget.userType == userModel.userType) {
@@ -93,8 +93,9 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigoAccent,
-        title: Text(
-            widget.userType == "User" ? "Login as user" : "Login as doctor"),
+        title: Text(widget.userType == "User"
+            ? "Login as service taker"
+            : "Login as doctor"),
         centerTitle: true,
       ),
       body: GestureDetector(

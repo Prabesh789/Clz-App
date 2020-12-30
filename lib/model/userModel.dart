@@ -7,6 +7,8 @@ class UserModel {
   final String password;
   final String bio;
   final String uid;
+  final String photoUrl;
+  final String verificationDoc;
 
   UserModel({
     this.bio,
@@ -17,5 +19,7 @@ class UserModel {
     this.email,
     this.fullName,
     this.password,
+    this.photoUrl,
+    this.verificationDoc,
   });
 }

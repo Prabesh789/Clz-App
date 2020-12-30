@@ -6,6 +6,20 @@ class InquaryDesk extends StatefulWidget {
 }
 
 class _InquaryDeskState extends State<InquaryDesk> {
+  List<String> _listTitle = <String>[
+    "What is 'Hello Doctor' is about?",
+    "How do we get Health Service?",
+    "How do we give Health Service?",
+  ];
+  List<String> _listDescription = <String>[
+    "This is a digital platform to provide and take health services. Here, "
+        "Doctor's are the service provider and public are service taker.",
+    "You can Choose doctors from department that you are searching for and can "
+        "consult with them through chat.",
+    "Thank you Doctor, you are here after successful registeration. i.e you are"
+        "listed as a doctor of your particular department. Now, all service taker can see"
+        "see you in doctors list they read your bio and they decided to take consult from you"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,34 +40,27 @@ class _InquaryDeskState extends State<InquaryDesk> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            question1(context),
-            SizedBox(height: 10.0),
-          ],
-        ),
+      body: ListView.separated(
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+        itemCount: _listTitle.length,
+        itemBuilder: (context, index) {
+          return ExpansionTile(
+            childrenPadding: EdgeInsets.symmetric(horizontal: 20),
+            title: Text(
+              _listTitle[index],
+              style: TextStyle(fontSize: 17),
+            ),
+            children: [
+              Text(
+                _listDescription[index],
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
-}
-
-Widget question1(BuildContext context) {
-  return Container(
-    padding: EdgeInsets.all(15.0),
-    child: Column(
-      children: <Widget>[
-        Text(
-          "1. What is 'Hello Doctor' is about?",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Padding(padding: EdgeInsets.only(top: 10)),
-        Text(
-          "- This is a digital platform to provide and take health services. Here, Doctor's are the service provider and public are service taker.",
-          style: TextStyle(fontSize: 18, color: Colors.blue),
-          textAlign: TextAlign.center,
-        )
-      ],
-    ),
-  );
 }
