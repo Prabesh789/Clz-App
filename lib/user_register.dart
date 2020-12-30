@@ -80,6 +80,7 @@ class _UserRegisterState extends State<UserRegister> {
               'verificationDoc': '',
               'photoUrl': downloadUrl,
               'userType': widget.userType,
+              'chattingWith': "",
             }).then((value) {
               setState(() {
                 photoUrl = downloadUrl;

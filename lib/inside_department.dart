@@ -259,7 +259,7 @@ class DoctorDetails extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => Chat(
+                                builder: (context) => ChatScreen(
                                   peerId: this.userModel.uid,
                                   peerAvatar: this.userModel.photoUrl,
                                 ),

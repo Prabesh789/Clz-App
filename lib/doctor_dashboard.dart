@@ -1,4 +1,5 @@
 import 'package:Hello_Doctor/doctor_noticeboard.dart';
+import 'package:Hello_Doctor/myPatients.dart';
 import 'package:Hello_Doctor/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +45,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           ),
         ),
       ),
-      body: GridView.builder(
-        itemCount: _doctorAttributes.length,
+      body: GridView(
         padding: EdgeInsets.all(10),
         physics: BouncingScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,38 +53,55 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => DoctorNoticeBoard(
-                    notice: _doctorAttributes[index],
-                  ),
-                ),
-              );
+        children: [
+          CustomGridContainer(
+            title: "${_doctorAttributes[0]}",
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => MyPatients()));
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10), color: Colors.white),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${_doctorAttributes[index]}",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
+          ),
+          CustomGridContainer(
+            title: "${_doctorAttributes[1]}",
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => DoctorNoticeBoard()));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomGridContainer extends StatelessWidget {
+  final String title;
+  final VoidCallback onPressed;
+
+  const CustomGridContainer({@required this.title, @required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onPressed(),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.white),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "$title",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
-              ),
-            ),
-          );
-        },
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

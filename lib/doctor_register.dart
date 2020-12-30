@@ -110,6 +110,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                       'photoUrl': downloadUrl,
                       'bio': bioController.text.trim(),
                       'userType': widget.userType,
+                      'chattingWith': "",
                     }).then((value) {
                       setState(() {
                         photoUrl = downloadUrl;
