@@ -100,17 +100,20 @@ class _MyDashboardState extends State<MyDashboard> {
             child: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Center(
-                child: Text("Log Out"),
+                child: Text(
+                  "Log Out",
+                  style: TextStyle(color: Colors.blue[900]),
+                ),
               ),
             ),
           ),
         ],
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.blueGrey[50],
         title: Container(
           alignment: Alignment.center,
           child: Text(
             'Dashboard',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
         ),
       ),

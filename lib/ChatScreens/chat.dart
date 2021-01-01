@@ -2,9 +2,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -124,7 +122,8 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
             width: 200.0,
             decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(8.0)),
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(8.0)),
             margin: EdgeInsets.only(
                 bottom: isLastMessageRight(index) ? 20.0 : 10.0, right: 10.0),
           )
@@ -235,9 +234,27 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[50],
       appBar: new AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.of(context).pop(context);
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.message,
+              color: Colors.black,
+            ),
+            onPressed: null,
+          )
+        ],
+        backgroundColor: Colors.white,
         title: new Text(
-          'CHAT',
+          'Messages',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

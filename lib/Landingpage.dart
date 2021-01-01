@@ -17,16 +17,17 @@ class _LandingpageState extends State<Landingpage> {
               Container(
                 height: 260,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        bottomRight: Radius.circular(30.0)),
+                    borderRadius:
+                        BorderRadius.only(bottomRight: Radius.circular(40.0)),
                     image: DecorationImage(
                         image: AssetImage('assets/images/health.jpg'),
                         fit: BoxFit.cover)),
               ),
-              SizedBox(
-                height: 40,
+              SizedBox(height: 40),
+              Container(
+                child: Image.asset('assets/images/wellcome.gif'),
               ),
+              SizedBox(height: 10),
               Text(
                 'Get started As',
                 style: TextStyle(
@@ -127,7 +128,7 @@ class _LandingpageState extends State<Landingpage> {
                     ]),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

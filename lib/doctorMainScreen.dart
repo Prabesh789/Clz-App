@@ -1,6 +1,7 @@
 import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/inquary_desk.dart';
 import 'package:Hello_Doctor/newsView/news_home_page.dart';
+import 'package:Hello_Doctor/sevrice_provider_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -17,7 +18,7 @@ class _DoctorMainScreenState extends State<DoctorMainScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _DoctorMainScreenState extends State<DoctorMainScreen>
           DoctorDashboard(),
           InquaryDesk(),
           NewsHomePage(),
+          ViewDoctorProfile(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -79,6 +81,14 @@ class _DoctorMainScreenState extends State<DoctorMainScreen>
                 width: 20,
               ),
               text: "News Articles",
+            ),
+            Tab(
+              icon: Image.asset(
+                'assets/images/myprofile.png',
+                height: 20,
+                width: 20,
+              ),
+              text: "My Profile",
             ),
           ],
         ),

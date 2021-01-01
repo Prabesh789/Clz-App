@@ -92,10 +92,20 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
-        title: Text(widget.userType == "User"
-            ? "Login as service taker"
-            : "Login as doctor"),
+        leading: IconButton(
+          color: Colors.black,
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: Colors.blueAccent[400],
+        title: Text(
+          widget.userType == "User"
+              ? "Login as service taker"
+              : "Login as doctor",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
       ),
       body: GestureDetector(

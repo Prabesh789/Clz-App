@@ -17,6 +17,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
     return Scaffold(
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
+        centerTitle: true,
         leading: SizedBox(),
         actions: [
           InkWell(
@@ -31,17 +32,30 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             child: Padding(
               padding: const EdgeInsets.only(right: 10),
               child: Center(
-                child: Text("Log Out"),
+                child: Text(
+                  "Log Out",
+                  style: TextStyle(
+                      color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
         ],
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.center,
-          child: Text(
-            "Doctor's Dashboard",
-            style: TextStyle(color: Colors.white),
+          child: Row(
+            children: [
+              Text(
+                "Doctor",
+                style: TextStyle(color: Colors.black),
+              ),
+              SizedBox(width: 10),
+              Text(
+                "Dashboard",
+                style: TextStyle(color: Colors.blue[900]),
+              ),
+            ],
           ),
         ),
       ),
