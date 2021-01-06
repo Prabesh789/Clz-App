@@ -43,10 +43,18 @@ dependencies:
   uuid: ^2.2.2
   validators: ^2.0.1
   webview_flutter: ^1.0.7
+  intl: ^0.16.1
+  flutter_launcher_icons: ^0.8.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

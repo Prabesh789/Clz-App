@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 class DoctorNoticeBoard extends StatefulWidget {
   final String notice;
@@ -9,23 +13,72 @@ class DoctorNoticeBoard extends StatefulWidget {
 }
 
 class _DoctorNoticeBoardState extends State<DoctorNoticeBoard> {
-  DateTime _date = DateTime.now();
+  String uId;
+  @override
+  void initState() {
+    FirebaseAuth.instance.authStateChanges().listen((User user) async {
+      if (user != null) {
+        setState(() {
+          uId = user.uid;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController titlecontroller = TextEditingController();
+  TextEditingController datecontroller = TextEditingController();
+  TextEditingController descriptioncontroller = TextEditingController();
+  String _date;
+  bool isLoading = false;
   Future<Null> _selectDate(BuildContext context) async {
     DateTime _datePicker = await showDatePicker(
       context: context,
-      initialDate: _date,
-      firstDate: DateTime(2020),
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2030),
       //
     );
 
-    if (_datePicker != null && _datePicker != _date) {
+    if (_datePicker != null) {
       setState(() {
-        _date = _datePicker;
-        print(
-          _date.toIso8601String(),
-        );
+        _date = DateFormat('MMM dd,yyyy').format(_datePicker);
+        datecontroller.text = _date;
       });
+    }
+  }
+
+  void postNotice() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      FirebaseFirestore.instance
+          .collection('user')
+          .doc(uId)
+          .collection('notice')
+          .doc()
+          .set({
+        //update
+        'title': titlecontroller.text.trim(),
+        'date': _date,
+        'description': descriptioncontroller.text.trim(),
+      });
+      setState(() {
+        isLoading = false;
+        titlecontroller.clear();
+        datecontroller.clear();
+        descriptioncontroller.clear();
+        _date = null;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      Fluttertoast.showToast(
+        msg: e.toString(),
+      );
     }
   }
 
@@ -59,108 +112,161 @@ class _DoctorNoticeBoardState extends State<DoctorNoticeBoard> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(15),
-          margin: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.white),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Notice",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return "Write Something";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          hintText: 'Notice Title:', labelText: 'Notice Title'),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 5),
-              Container(
-                child: TextFormField(
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Write Something";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: (_date.toString()),
-                    labelText: 'Date: yy-mm-dd',
-                    labelStyle: TextStyle(fontSize: 16, color: Colors.black),
-                    suffix: InkWell(
-                      onTap: () {
-                        setState(
-                          () {
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Form(
+          key: _formKey,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  margin: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Notice",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        child: TextFormField(
+                          controller: titlecontroller,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Write Something";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              hintText: 'Notice Title:',
+                              labelText: 'Notice Title'),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        child: TextFormField(
+                          controller: datecontroller,
+                          readOnly: true,
+                          onTap: () {
                             _selectDate(context);
                           },
-                        );
-                      },
-                      child: Image.asset(
-                        'assets/images/event.gif',
-                        height: 30,
-                        width: 30,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Write Something";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            hintText: (_date.toString()),
+                            labelText: 'Date: yy-mm-dd',
+                            labelStyle:
+                                TextStyle(fontSize: 16, color: Colors.black),
+                            suffix: Image.asset(
+                              'assets/images/event.gif',
+                              height: 30,
+                              width: 30,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 15),
+                      Container(
+                        child: TextFormField(
+                          controller: descriptioncontroller,
+                          maxLines: 8,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Write Something";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.teal,
+                                  )),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: Colors.black,
+                              )),
+                              labelText: 'Notice Details.',
+                              labelStyle: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                              hintText: 'This notice .....'),
+                          maxLength: 250,
+                        ),
+                      ),
+                      Divider(),
+                      InkWell(
+                        onTap: () {
+                          if (_formKey.currentState.validate()) {
+                            postNotice();
+                          }
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 50,
+                          width: MediaQuery.of(context).size.width / 2,
+                          decoration: BoxDecoration(
+                            color: Colors.blue[900],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            'Post',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              Container(
-                child: TextFormField(
-                  maxLines: 8,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Write Something";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.teal,
-                          )),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: Colors.black,
-                      )),
-                      labelText: 'Notice Details.',
-                      labelStyle: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                      hintText: 'This notice .....'),
-                  maxLength: 250,
-                ),
-              ),
-              Divider(),
-              RaisedButton(
-                  elevation: 10,
-                  color: Colors.blueAccent,
-                  child: Text(
-                    'Publish',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {})
+              isLoading
+                  ? Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black.withOpacity(.5),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Please wait...",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
             ],
           ),
         ),

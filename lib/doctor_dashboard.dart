@@ -30,7 +30,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               });
             },
             child: Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 8),
               child: Center(
                 child: Text(
                   "Log Out",
@@ -43,8 +43,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         ],
         backgroundColor: Colors.white,
         title: Container(
-          alignment: Alignment.center,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "Doctor",

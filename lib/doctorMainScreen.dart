@@ -1,7 +1,9 @@
 import 'package:Hello_Doctor/doctor_dashboard.dart';
 import 'package:Hello_Doctor/inquary_desk.dart';
+import 'package:Hello_Doctor/model/userModel.dart';
 import 'package:Hello_Doctor/newsView/news_home_page.dart';
 import 'package:Hello_Doctor/sevrice_provider_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -15,10 +17,11 @@ class _DoctorMainScreenState extends State<DoctorMainScreen>
   TabController _tabController;
 
   String photoUrl;
+
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    super.initState();
   }
 
   Widget build(BuildContext context) {

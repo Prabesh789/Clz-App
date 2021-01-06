@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   UserModel userModel;
 
   void loginUser() async {
+    // Login Method
     if (mounted)
       setState(() {
         isLoading = true;
@@ -110,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode()); //Keyboard remove
         },
         child: Stack(
           children: [

@@ -78,15 +78,16 @@ class _InsideDepartmentState extends State<InsideDepartment> {
                       MaterialPageRoute(
                         builder: (context) => DoctorDetails(
                           userModel: UserModel(
-                              uid: data.id,
-                              bio: data['bio'],
-                              contact: data['contact'],
-                              department: data['department'],
-                              email: data['email'],
-                              fullName: data['fullName'],
-                              password: "",
-                              verificationDoc: data['verificationDoc'],
-                              photoUrl: data['photoUrl']),
+                            uid: data.id,
+                            bio: data['bio'],
+                            contact: data['contact'],
+                            department: data['department'],
+                            email: data['email'],
+                            fullName: data['fullName'],
+                            password: "",
+                            verificationDoc: data['verificationDoc'],
+                            photoUrl: data['photoUrl'],
+                          ),
                         ),
                       ),
                     );
@@ -293,7 +294,9 @@ class DoctorDetails extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewNotice()));
+                                    builder: (context) => ViewNotice(
+                                          userModel: this.userModel,
+                                        )));
                           },
                         )
                       ],

@@ -81,6 +81,7 @@ class _UserRegisterState extends State<UserRegister> {
               'photoUrl': downloadUrl,
               'userType': widget.userType,
               'chattingWith': "",
+              'documentID': user.uid,
             }).then((value) {
               setState(() {
                 photoUrl = downloadUrl;

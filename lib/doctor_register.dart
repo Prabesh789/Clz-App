@@ -40,7 +40,6 @@ class _DoctorRegisterState extends State<DoctorRegister> {
   ];
 
   final TextEditingController fullNameController = TextEditingController();
-
   final TextEditingController contactController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -111,6 +110,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                       'bio': bioController.text.trim(),
                       'userType': widget.userType,
                       'chattingWith': "",
+                      'documentID': user.uid,
                     }).then((value) {
                       setState(() {
                         photoUrl = downloadUrl;

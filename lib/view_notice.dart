@@ -1,6 +1,11 @@
+import 'package:Hello_Doctor/model/userModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ViewNotice extends StatefulWidget {
+  final UserModel userModel;
+
+  const ViewNotice({Key key, @required this.userModel}) : super(key: key);
   @override
   _ViewNoticeState createState() => _ViewNoticeState();
 }
@@ -34,39 +39,76 @@ class _ViewNoticeState extends State<ViewNotice> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.white),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                "Notice Title",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('user')
+            .doc(widget.userModel.uid)
+            .collection('notice')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
-              SizedBox(height: 10),
-              Text(" Hi"),
-              Divider(),
-              Text(
-                "Date of Published",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            );
+          } else if (snapshot.data.documents.length <= 0) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text('No notice avaiable yet !'),
               ),
-              SizedBox(height: 10),
-              Text(" Hi"),
-              Divider(),
-              Text(
-                "Notice Details",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 10),
-              Text(" Hi"),
-              Divider(),
-            ],
-          ),
-        ),
+            );
+          } else {
+            return ListView.separated(
+              itemCount: snapshot.data.documents.length,
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Notice Title",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 10),
+                      Text(" ${snapshot.data.documents[index]['title']}"),
+                      Divider(),
+                      Text(
+                        "Date of Published",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 10),
+                      Text(" ${snapshot.data.documents[index]['date']}"),
+                      Divider(),
+                      Text(
+                        "Notice Details",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 10),
+                      Text(" ${snapshot.data.documents[index]['description']}"),
+                      Divider(),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

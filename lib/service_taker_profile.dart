@@ -1,11 +1,8 @@
 import 'package:Hello_Doctor/model/userModel.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+//import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ServiceTakerProfile extends StatefulWidget {
-  final UserModel userModel;
-
-  const ServiceTakerProfile({Key key, this.userModel}) : super(key: key);
   @override
   _ServiceTakerProfileState createState() => _ServiceTakerProfileState();
 }
@@ -22,14 +19,14 @@ class _ServiceTakerProfileState extends State<ServiceTakerProfile> {
           children: [
             Text(
               "My",
-              style: TextStyle(color: Colors.blue[900]),
+              style: TextStyle(color: Colors.black),
             ),
             SizedBox(
               width: 08,
             ),
             Text(
               "Profile",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.blue[700]),
             )
           ],
         ),
