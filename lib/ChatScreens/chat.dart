@@ -78,7 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       });
       final snapShot = await FirebaseFirestore.instance
-          .collection('posts')
+          .collection('user')
           .doc(widget.peerId)
           .get();
 

@@ -1,7 +1,7 @@
 import 'package:Hello_Doctor/model/categorymodel.dart';
 
 List<CategoryModel> getCategories() {
-  List<CategoryModel> category = new List<CategoryModel>();
+  List<CategoryModel> category = [];
   CategoryModel categoryModel = new CategoryModel();
 
   //1

@@ -94,18 +94,18 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          color: Colors.black,
+          color: Colors.white,
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.blueAccent[400],
+        backgroundColor: Colors.indigoAccent,
         title: Text(
           widget.userType == "User"
               ? "Login as service taker"
               : "Login as doctor",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
@@ -191,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'Login',
                           style: TextStyle(
+                              color: Colors.white,
                               fontSize: 16,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold),

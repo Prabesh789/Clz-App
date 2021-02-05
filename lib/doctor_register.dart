@@ -439,21 +439,22 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                               right: 0,
                               bottom: 0,
                               child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue[900],
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Tap to Choose document",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[900],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Tap to Choose document",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ),
                             // SizedBox(
                             //   height: 20,
@@ -462,6 +463,7 @@ class _DoctorRegisterState extends State<DoctorRegister> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 20),
                       RaisedButton(
                         padding: EdgeInsets.only(left: 100, right: 100),
                         shape: RoundedRectangleBorder(
@@ -579,7 +581,7 @@ Widget contactNoTextField(TextEditingController contactController) {
           Icons.phone,
           color: Colors.green,
         ),
-        labelText: 'Mobile/Phome Number',
+        labelText: 'Mobile/Phone Number',
         labelStyle: TextStyle(
             color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.bold),
         hintText: '+977 982-083828'),

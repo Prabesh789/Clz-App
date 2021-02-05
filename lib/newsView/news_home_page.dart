@@ -13,8 +13,8 @@ class NewsHomePage extends StatefulWidget {
 }
 
 class _NewsHomePageState extends State<NewsHomePage> {
-  List<CategoryModel> categories = new List<CategoryModel>();
-  List<ArticleModel> articles = new List<ArticleModel>();
+  List<CategoryModel> categories = <CategoryModel>[];
+  List<ArticleModel> articles = <ArticleModel>[];
 
   bool _loading = true;
 

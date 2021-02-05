@@ -69,6 +69,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
         ),
         children: [
           CustomGridContainer(
+            icon: Icon(Icons.people),
             title: "${_doctorAttributes[0]}",
             onPressed: () {
               Navigator.of(context)
@@ -76,6 +77,7 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             },
           ),
           CustomGridContainer(
+            icon: Icon(Icons.book),
             title: "${_doctorAttributes[1]}",
             onPressed: () {
               Navigator.of(context).push(
@@ -91,8 +93,10 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
 class CustomGridContainer extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final Widget icon;
 
-  const CustomGridContainer({@required this.title, @required this.onPressed});
+  const CustomGridContainer(
+      {@required this.title, @required this.onPressed, @required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +109,7 @@ class CustomGridContainer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              this.icon,
               Text(
                 "$title",
                 style: TextStyle(
